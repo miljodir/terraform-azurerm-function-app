@@ -16,12 +16,6 @@ variable "storage_subnet_id" {
   default     = null
 }
 
-variable "storage_subnet_id" {
-  description = "ID of the subnet to associate with the Storage Account."
-  type        = string
-  default     = null
-}
-
 variable "storage_account_kind" {
   description = "Storage Account Kind."
   type        = string
@@ -67,7 +61,7 @@ variable "storage_account_network_rules_enabled" {
 variable "storage_account_network_bypass" {
   description = "Whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of `Logging`, `Metrics`, `AzureServices`, or `None`."
   type        = list(string)
-  default     = ["Logging", "Metrics", "AzureServices"]
+  default     = ["None"]
 }
 
 variable "storage_account_authorized_ips" {

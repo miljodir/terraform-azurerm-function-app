@@ -1,6 +1,10 @@
 module "linux_function" {
   for_each = toset(lower(var.os_type) == "linux" ? ["enabled"] : [])
 
+  providers = {
+    azurerm.p-dns = azurerm.p-dns
+  }
+
   source = "./modules/linux-function"
 
   client_name         = var.client_name
@@ -103,6 +107,10 @@ module "linux_function" {
 
 module "windows_function" {
   for_each = toset(lower(var.os_type) == "windows" ? ["enabled"] : [])
+
+  providers = {
+    azurerm.p-dns = azurerm.p-dns
+  }
 
   source = "./modules/windows-function"
 
