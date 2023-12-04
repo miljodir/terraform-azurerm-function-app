@@ -31,8 +31,3 @@ output "storage_account_secondary_access_key" {
   value       = local.storage_account_output.secondary_access_key
   sensitive   = true
 }
-
-output "storage_account_network_rules" {
-  description = "Network rules of the associated Storage Account"
-  value       = one(values(azurerm_storage_account_network_rules.storage_network_rules))
-}

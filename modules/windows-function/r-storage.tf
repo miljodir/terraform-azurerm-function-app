@@ -27,7 +27,7 @@ module "storage" {
   public_network_access_enabled        = false
   allow_nested_items_to_be_public      = false
 
-  private_endpoints = merge(local.storage_default_private_endpoints, var.storage_private_endpoints)
+  private_endpoints = concat(local.storage_default_private_endpoints, var.storage_private_endpoints)
   network_rules = {
     default_action = var.storage_subnet_id != null ? "Deny" : "Allow"
     bypass         = ["None"]
