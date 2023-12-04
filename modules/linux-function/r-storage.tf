@@ -1,61 +1,35 @@
 module "storage" {
   for_each = toset(var.use_existing_storage_account ? [] : ["enabled"])
 
-  source  = "claranet/storage-account/azurerm"
-  version = "~> 7.8.0"
+  source  = "miljodir/storage-account/azurerm"
+  version = ">= 1.0, <= 2.0"
 
-  client_name    = var.client_name
-  environment    = var.environment
-  stack          = var.stack
-  location       = var.location
-  location_short = var.location_short
-
-  resource_group_name = var.resource_group_name
-
-  storage_account_custom_name = var.storage_account_custom_name
-  name_prefix                 = local.sa_name_prefix
-  name_suffix                 = format("%sfunc", var.name_suffix)
-
-  # Storage account kind/SKU/tier
-  account_kind             = var.storage_account_kind
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
-  # Storage account options / security
-  min_tls_version                    = var.storage_account_min_tls_version
-  https_traffic_only_enabled         = var.storage_account_enable_https_traffic_only
-  public_nested_items_allowed        = false
-  advanced_threat_protection_enabled = var.storage_account_enable_advanced_threat_protection
-  shared_access_key_enabled          = !var.storage_uses_managed_identity
-
-  # Identity
-  identity_type = var.storage_account_identity_type
-  identity_ids  = var.storage_account_identity_ids
-
-  # Data protection - not needed for functions
-  storage_blob_data_protection = {
-    change_feed_enabled                       = false
-    versioning_enabled                        = false
-    delete_retention_policy_in_days           = 0
-    container_delete_retention_policy_in_days = 0
-    container_point_in_time_restore           = false
+  providers = {
+    azurerm       = azurerm
+    azurerm.p-dns = azurerm.p-dns
   }
 
-  # Network rules - handle out of module to avoid Terraform cycle
-  network_rules_enabled = false
+  resource_group_name                  = azurerm_resource_group.rg_web.name
+  storage_account_name                 = "${replace(azurerm_resource_group.rg_web.name, "-", "")}${random_string.unique.result}"
+  account_kind                         = "StorageV2"
+  blob_soft_delete_retention_days      = 7
+  container_soft_delete_retention_days = 7
+  is_hns_enabled                       = false
+  min_tls_version                      = "TLS1_2"
+  shared_access_key_enabled            = false
+  sku_name                             = "Standard_LRS"
+  subnet_id                            = module.vnet.subnets["privatelink"].id
+  public_network_access_enabled        = false
+  allow_nested_items_to_be_public      = false
 
-  # Diagnostics/logs
-  logs_destinations_ids   = var.logs_destinations_ids
-  logs_categories         = var.logs_categories
-  logs_metrics_categories = var.logs_metrics_categories
-
-  # Tagging
-  default_tags_enabled = var.default_tags_enabled
-  extra_tags = merge(
-    local.default_tags,
-    var.storage_account_extra_tags,
-    var.extra_tags,
-  )
+  private_endpoints = [
+    "blob",
+  ]
+  network_rules = {
+    default_action = "Deny"
+    bypass         = ["None"]
+    subnet_ids     = []
+  }
 }
 
 resource "azurerm_storage_account_network_rules" "storage_network_rules" {

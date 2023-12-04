@@ -5,8 +5,9 @@ terraform {
   required_providers {
     # tflint-ignore: terraform_unused_required_providers
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.64"
+      source                = "hashicorp/azurerm"
+      version               = "~> 3.64"
+      configuration_aliases = [azurerm.p-dns]
     }
     # tflint-ignore: terraform_unused_required_providers
     azurecaf = {

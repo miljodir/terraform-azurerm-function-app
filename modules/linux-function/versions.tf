@@ -3,8 +3,9 @@ terraform {
 
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.36"
+      source                = "hashicorp/azurerm"
+      version               = "~> 3.36"
+      configuration_aliases = [azurerm.p-dns]
     }
     azurecaf = {
       source  = "aztfmod/azurecaf"
