@@ -93,6 +93,18 @@ variable "function_app_vnet_integration_subnet_id" {
   default     = null
 }
 
+variable "function_app_pe_subnet_id" {
+  description = "value of the subnet to associate the private endpoint with the Function App (Incoming traffic)"
+  type        = string
+  default     = null
+}
+
+variable "function_app_public_network_access_enabled" {
+  description = "Whether the Function App is accessible from the public internet."
+  type        = bool
+  default     = false
+}
+
 variable "site_config" {
   description = "Site config for Function App. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block."
   type        = any

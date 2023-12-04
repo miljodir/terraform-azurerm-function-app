@@ -1,136 +1,50 @@
+locals {
+  storage_default_private_endpoints = var.storage_subnet_id != null ? ["blob", ] : []
+}
+
 module "storage" {
   for_each = toset(var.use_existing_storage_account ? [] : ["enabled"])
 
-  source  = "claranet/storage-account/azurerm"
-  version = "~> 7.8.0"
+  source  = "miljodir/storage-account/azurerm"
+  version = ">= 1.0, <= 2.0"
 
-  client_name    = var.client_name
-  environment    = var.environment
-  stack          = var.stack
-  location       = var.location
-  location_short = var.location_short
-
-  resource_group_name = var.resource_group_name
-
-  storage_account_custom_name = var.storage_account_custom_name
-  name_prefix                 = local.sa_name_prefix
-  name_suffix                 = format("%sfunc", var.name_suffix)
-
-
-  # Storage account kind/SKU/tier
-  account_kind             = var.storage_account_kind
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
-  # Storage account options / security
-  min_tls_version                    = var.storage_account_min_tls_version
-  https_traffic_only_enabled         = var.storage_account_enable_https_traffic_only
-  public_nested_items_allowed        = false
-  advanced_threat_protection_enabled = var.storage_account_enable_advanced_threat_protection
-  shared_access_key_enabled          = !var.storage_uses_managed_identity
-
-  # Identity
-  identity_type = var.storage_account_identity_type
-  identity_ids  = var.storage_account_identity_ids
-
-  # Data protection - not needed for functions
-  storage_blob_data_protection = {
-    change_feed_enabled                       = false
-    versioning_enabled                        = false
-    delete_retention_policy_in_days           = 0
-    container_delete_retention_policy_in_days = 0
-    container_point_in_time_restore           = false
+  providers = {
+    azurerm       = azurerm
+    azurerm.p-dns = azurerm.p-dns
   }
 
-  # Network rules - handle out of module to avoid Terraform cycle
-  network_rules_enabled = false
+  resource_group_name  = var.resource_group_name
+  storage_account_name = "${replace(var.resource_group_name, "-", "")}deploy"
 
-  # Diagnostics/logs
-  logs_destinations_ids   = var.logs_destinations_ids
-  logs_categories         = var.logs_categories
-  logs_metrics_categories = var.logs_metrics_categories
+  account_kind                         = "StorageV2"
+  blob_soft_delete_retention_days      = 7
+  container_soft_delete_retention_days = 7
+  is_hns_enabled                       = false
+  min_tls_version                      = "TLS1_2"
+  shared_access_key_enabled            = false
+  sku_name                             = "Standard_LRS"
+  subnet_id                            = var.storage_subnet_id != null ? var.storage_subnet_id : null
+  public_network_access_enabled        = false
+  allow_nested_items_to_be_public      = false
 
-  # Tagging
-  default_tags_enabled = var.default_tags_enabled
-  extra_tags = merge(
-    local.default_tags,
-    var.storage_account_extra_tags,
-    var.extra_tags,
-  )
+  private_endpoints = merge(local.storage_default_private_endpoints, var.storage_private_endpoints)
+  network_rules = {
+    default_action = var.storage_subnet_id != null ? "Deny" : "Allow"
+    bypass         = ["None"]
+    subnet_ids     = []
+  }
 }
 
-resource "azurerm_storage_account_network_rules" "storage_network_rules" {
-  for_each = toset(!var.use_existing_storage_account && var.storage_account_network_rules_enabled ? ["enabled"] : [])
-
-  storage_account_id = local.storage_account_output.id
-
-  default_action             = "Deny"
-  ip_rules                   = local.storage_ips
-  virtual_network_subnet_ids = distinct(compact(concat(var.authorized_subnet_ids, [var.function_app_vnet_integration_subnet_id])))
-  bypass                     = var.storage_account_network_bypass
-
-  lifecycle {
-    precondition {
-      condition     = var.function_app_vnet_integration_subnet_id != null
-      error_message = "Network rules on Storage Account cannot be set for same region Storage without VNet integration."
-    }
-  }
+resource "azurerm_role_assignment" "functionapp_storage_dataowner" {
+  count                = var.storage_uses_managed_identity ? 1 : 0
+  role_definition_name = "Storage Blob Data Owner"
+  scope                = data.azurerm_storage_account.storage.id
+  principal_id         = azurerm_windows_function_app.windows_function.identity[0].principal_id
 }
 
 data "azurerm_storage_account" "storage" {
-  name                = var.use_existing_storage_account ? split("/", var.storage_account_id)[8] : module.storage["enabled"].storage_account_name
+  name                = var.use_existing_storage_account ? split("/", var.storage_account_id)[8] : module.storage.storage_account.name
   resource_group_name = var.use_existing_storage_account ? split("/", var.storage_account_id)[4] : var.resource_group_name
 
   depends_on = [module.storage]
-}
-
-resource "azurerm_storage_container" "package_container" {
-  count = var.application_zip_package_path != null && local.is_local_zip ? 1 : 0
-
-  name                  = "functions-packages"
-  storage_account_name  = data.azurerm_storage_account.storage.name
-  container_access_type = "private"
-}
-
-resource "azurerm_storage_blob" "package_blob" {
-  count = var.application_zip_package_path != null && local.is_local_zip ? 1 : 0
-
-  name                   = "${local.function_app_name}.zip"
-  storage_account_name   = azurerm_storage_container.package_container[0].storage_account_name
-  storage_container_name = azurerm_storage_container.package_container[0].name
-  type                   = "Block"
-  source                 = var.application_zip_package_path
-  content_md5            = filemd5(var.application_zip_package_path)
-}
-
-data "azurerm_storage_account_sas" "package_sas" {
-  for_each = toset(var.application_zip_package_path != null && !var.storage_uses_managed_identity ? ["enabled"] : [])
-
-  connection_string = data.azurerm_storage_account.storage.primary_connection_string
-  https_only        = false
-  resource_types {
-    service   = false
-    container = false
-    object    = true
-  }
-  services {
-    blob  = true
-    queue = false
-    table = false
-    file  = false
-  }
-  start  = "2021-01-01"
-  expiry = "2041-01-01"
-  permissions {
-    read    = true
-    write   = false
-    delete  = false
-    list    = false
-    add     = false
-    create  = false
-    update  = false
-    process = false
-    filter  = false
-    tag     = false
-  }
 }

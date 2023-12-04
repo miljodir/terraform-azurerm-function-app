@@ -1,6 +1,7 @@
 variable "os_type" {
   description = "OS type for the Functions to be hosted in the Service Plan. Possible values include `Windows`, `Linux`, and `WindowsContainer`."
   type        = string
+  default     = "Linux"
 }
 
 variable "sku_name" {
