@@ -31,7 +31,7 @@ variable "location_short" {
 variable "function_app_version" {
   description = "Version of the function app runtime to use."
   type        = number
-  default     = 3
+  default     = 4
 }
 
 variable "function_app_application_settings" {
