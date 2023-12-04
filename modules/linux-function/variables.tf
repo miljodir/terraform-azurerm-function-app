@@ -16,11 +16,13 @@ variable "resource_group_name" {
 variable "location" {
   description = "Azure location for Function App and related resources."
   type        = string
+  default     = "norwayeast"
 }
 
 variable "location_short" {
   description = "Short string for Azure location."
   type        = string
+  default     = "ne1"
 }
 
 variable "function_app_version" {
