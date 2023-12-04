@@ -91,6 +91,12 @@ variable "function_app_vnet_integration_subnet_id" {
   default     = null
 }
 
+variable "function_app_pe_subnet_id" {
+  description = "value of the subnet to associate the private endpoint with the Function App (Incoming traffic)"
+  type        = string
+  default     = null
+}
+
 variable "function_app_site_config" {
   description = "Site config for Function App. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block."
   type        = any
@@ -187,4 +193,16 @@ List of destination resources IDs for logs diagnostic destination.
 Can be `Storage Account`, `Log Analytics Workspace` and `Event Hub`. No more than one of each can be set.
 If you want to use Azure EventHub as destination, you must provide a formatted string with both the EventHub Namespace authorization send ID and the EventHub name (name of the queue to use in the Namespace) separated by the <code>&#124;</code> character.
 EOD
+}
+
+variable "storage_subnet_id" {
+  description = "ID of the subnet to associate with the Storage Account."
+  type        = string
+  default     = null
+}
+
+variable "storage_private_endpoints" {
+  description = "Private endpoints to create for the Storage Account."
+  type        = list(string)
+  default     = []
 }
