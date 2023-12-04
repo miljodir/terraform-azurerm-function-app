@@ -33,8 +33,3 @@ module "service_plan" {
     local.default_tags,
   )
 }
-
-moved {
-  from = module.app_service_plan
-  to   = module.service_plan
-}
