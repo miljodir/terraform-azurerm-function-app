@@ -101,11 +101,6 @@ module "linux_function" {
   )
 }
 
-moved {
-  from = module.function_app
-  to   = module.linux_function
-}
-
 module "windows_function" {
   for_each = toset(lower(var.os_type) == "windows" ? ["enabled"] : [])
 
