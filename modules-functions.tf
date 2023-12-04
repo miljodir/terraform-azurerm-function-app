@@ -5,7 +5,6 @@ module "linux_function" {
 
   client_name         = var.client_name
   environment         = var.environment
-  stack               = var.stack
   resource_group_name = var.resource_group_name
   location            = var.location
   location_short      = var.location_short
@@ -13,8 +12,6 @@ module "linux_function" {
   use_caf_naming = var.use_caf_naming
   name_prefix    = var.name_prefix
   name_suffix    = var.name_suffix
-
-  custom_diagnostic_settings_name = var.custom_diagnostic_settings_name
 
   storage_uses_managed_identity = var.storage_uses_managed_identity
 
@@ -73,10 +70,6 @@ module "linux_function" {
   scm_authorized_service_tags = var.scm_authorized_service_tags
   scm_ip_restriction_headers  = var.scm_ip_restriction_headers
 
-  logs_destinations_ids   = var.logs_destinations_ids
-  logs_categories         = var.logs_categories
-  logs_metrics_categories = var.logs_metrics_categories
-
   https_only                 = var.https_only
   builtin_logging_enabled    = var.builtin_logging_enabled
   client_certificate_enabled = var.client_certificate_enabled
@@ -128,8 +121,6 @@ module "windows_function" {
   use_caf_naming = var.use_caf_naming
   name_prefix    = var.name_prefix
   name_suffix    = var.name_suffix
-
-  custom_diagnostic_settings_name = var.custom_diagnostic_settings_name
 
   storage_uses_managed_identity = var.storage_uses_managed_identity
 
@@ -186,10 +177,6 @@ module "windows_function" {
   scm_authorized_subnet_ids   = var.scm_authorized_subnet_ids
   scm_authorized_service_tags = var.scm_authorized_service_tags
   scm_ip_restriction_headers  = var.scm_ip_restriction_headers
-
-  logs_destinations_ids   = var.logs_destinations_ids
-  logs_categories         = var.logs_categories
-  logs_metrics_categories = var.logs_metrics_categories
 
   https_only                 = var.https_only
   builtin_logging_enabled    = var.builtin_logging_enabled

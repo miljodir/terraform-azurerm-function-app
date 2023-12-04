@@ -10,6 +10,18 @@ variable "storage_account_id" {
   default     = null
 }
 
+variable "storage_subnet_id" {
+  description = "ID of the subnet to associate with the Storage Account."
+  type        = string
+  default     = null
+}
+
+variable "storage_private_endpoints" {
+  description = "Private endpoints to create for the Storage Account."
+  type        = list(string)
+  default     = []
+}
+
 variable "storage_account_kind" {
   description = "Storage Account Kind."
   type        = string

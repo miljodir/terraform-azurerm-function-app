@@ -18,7 +18,8 @@ resource "azurerm_linux_function_app" "linux_function" {
 
   functions_extension_version = "~${var.function_app_version}"
 
-  virtual_network_subnet_id = var.function_app_vnet_integration_subnet_id
+  virtual_network_subnet_id     = var.function_app_vnet_integration_subnet_id
+  public_network_access_enabled = var.function_app_public_network_access_enabled
 
   app_settings = merge(
     local.default_application_settings,

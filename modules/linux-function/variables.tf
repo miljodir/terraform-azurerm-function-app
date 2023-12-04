@@ -8,11 +8,6 @@ variable "environment" {
   type        = string
 }
 
-variable "stack" {
-  description = "Project stack name."
-  type        = string
-}
-
 variable "resource_group_name" {
   description = "Resource group name."
   type        = string
@@ -31,7 +26,7 @@ variable "location_short" {
 variable "function_app_version" {
   description = "Version of the function app runtime to use."
   type        = number
-  default     = 3
+  default     = 4
 }
 
 variable "service_plan_id" {
@@ -91,6 +86,18 @@ variable "function_app_vnet_integration_subnet_id" {
   description = "ID of the subnet to associate with the Function App (Virtual Network integration)."
   type        = string
   default     = null
+}
+
+variable "function_app_pe_subnet_id" {
+  description = "value of the subnet to associate the private endpoint with the Function App (Incoming traffic)"
+  type        = string
+  default     = null
+}
+
+variable "function_app_public_network_access_enabled" {
+  description = "Whether the Function App is accessible from the public internet."
+  type        = bool
+  default     = false
 }
 
 variable "site_config" {

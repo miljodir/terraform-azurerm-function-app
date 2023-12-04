@@ -5,7 +5,7 @@ locals {
   default_site_config = {
     always_on                              = !local.is_consumption && !local.is_elastic_premium
     application_insights_connection_string = var.application_insights_enabled ? local.app_insights.connection_string : null
-    application_insights_key               = var.application_insights_enabled ? local.app_insights.instrumentation_key : null
+    vnet_route_all_enabled                 = var.function_app_vnet_integration_subnet_id != null
   }
 
   site_config = merge(local.default_site_config, var.site_config)
