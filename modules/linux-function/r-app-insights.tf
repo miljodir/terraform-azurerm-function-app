@@ -35,3 +35,11 @@ resource "azurerm_application_insights" "app_insights" {
     var.extra_tags,
   )
 }
+
+
+resource "azurerm_role_assignment" "appinsights_publisher" {
+  count                = local.app_insights != {} ? 1 : 0
+  scope                = local.app_insights.id
+  principal_id         = azurerm_linux_function_app.linux_function.identity[0].principal_id
+  role_definition_name = "Monitoring Metrics Publisher"
+}
