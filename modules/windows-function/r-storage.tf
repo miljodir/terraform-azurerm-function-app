@@ -3,7 +3,7 @@ locals {
 }
 
 module "storage" {
-  for_each = toset(var.use_existing_storage_account ? [] : ["enabled"])
+  for_each = toset(var.storage_account_id == null ? [] : ["enabled"])
 
   source  = "miljodir/storage-account/azurerm"
   version = "~> 1.0"
