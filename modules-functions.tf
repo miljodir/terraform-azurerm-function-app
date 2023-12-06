@@ -3,12 +3,13 @@ module "linux_function" {
 
   providers = {
     azurerm.p-dns = azurerm.p-dns
+    azurerm       = azurerm
   }
 
   source = "./modules/linux-function"
 
-  client_name         = var.client_name
-  environment         = var.environment
+  workload = var.workload
+
   resource_group_name = var.resource_group_name
   location            = var.location
   location_short      = var.location_short
@@ -58,6 +59,10 @@ module "linux_function" {
 
   identity_type = var.identity_type
   identity_ids  = var.identity_ids
+
+  logs_destinations_ids   = var.logs_destinations_ids
+  logs_categories         = var.logs_categories
+  logs_metrics_categories = var.logs_metrics_categories
 
   authorized_ips                          = var.authorized_ips
   authorized_service_tags                 = var.authorized_service_tags
@@ -110,13 +115,12 @@ module "windows_function" {
 
   providers = {
     azurerm.p-dns = azurerm.p-dns
+    azurerm       = azurerm
   }
 
   source = "./modules/windows-function"
 
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
+  workload            = var.workload
   resource_group_name = var.resource_group_name
   location            = var.location
   location_short      = var.location_short
@@ -166,6 +170,10 @@ module "windows_function" {
 
   identity_type = var.identity_type
   identity_ids  = var.identity_ids
+
+  logs_destinations_ids   = var.logs_destinations_ids
+  logs_categories         = var.logs_categories
+  logs_metrics_categories = var.logs_metrics_categories
 
   authorized_ips                          = var.authorized_ips
   authorized_service_tags                 = var.authorized_service_tags

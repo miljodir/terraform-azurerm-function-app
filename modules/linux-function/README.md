@@ -32,46 +32,29 @@ which set some terraform variables in the environment needed by this module.
 More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
 
 ```hcl
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
 
-  azure_region = var.azure_region
-}
-
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure_region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
+resource "azurerm_resource_group" "rg" {
+  name     = "my-rg"
+  location = "norwayeast"
 }
 
 module "logs" {
   source  = "claranet/run/azurerm//modules/logs"
   version = "x.x.x"
 
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  workload   = var.workload  
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 }
 
 ### Linux
 module "function_app_linux" {
-  source  = "claranet/function-app/azurerm"
+  source  = "miljodir/function-app/azurerm"
   version = "x.x.x"
 
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  workload   = var.workload  
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   name_prefix = "hello"
 
@@ -79,7 +62,7 @@ module "function_app_linux" {
   function_app_version = 4
   function_app_site_config = {
     application_stack = {
-      python_version = "3.9"
+      dotnet_version = "8.0"
     }
   }
 
@@ -90,14 +73,6 @@ module "function_app_linux" {
 
   storage_account_identity_type = "SystemAssigned"
 
-  logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id
-  ]
-
-  extra_tags = {
-    foo = "bar"
-  }
 }
 ```
 

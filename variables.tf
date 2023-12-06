@@ -1,21 +1,10 @@
-variable "client_name" {
-  description = "Client name/account used in naming."
-  type        = string
-  default     = "mdir"
-}
-
-variable "environment" {
-  description = "Project environment."
-  type        = string
-}
-
-variable "stack" {
-  description = "Project stack name."
-  type        = string
-}
-
 variable "resource_group_name" {
   description = "Resource group name."
+  type        = string
+}
+
+variable "workload" {
+  description = "Workload name."
   type        = string
 }
 
@@ -30,6 +19,13 @@ variable "location_short" {
   type        = string
   default     = "ne1"
 }
+
+variable "unique" {
+  description = "Unique string to ensure uniqueness of resources."
+  type        = string
+  default     = null
+}
+
 
 variable "function_app_version" {
   description = "Version of the function app runtime to use."

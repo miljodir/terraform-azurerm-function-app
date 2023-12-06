@@ -1,42 +1,17 @@
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
 
-  azure_region = var.azure_region
+resource "azurerm_resource_group" "rg" {
+  name     = "my-rg"
+  location = "norwayeast"
 }
 
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure_region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
-}
-
-module "logs" {
-  source  = "claranet/run/azurerm//modules/logs"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-}
 
 module "function_app_windows" {
-  source  = "claranet/function-app/azurerm"
+  source  = "miljodir/function-app/azurerm"
   version = "x.x.x"
 
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  workload            = var.workload
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   name_prefix = "hello"
 
@@ -49,12 +24,4 @@ module "function_app_windows" {
 
   storage_account_identity_type = "SystemAssigned"
 
-  logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id
-  ]
-
-  extra_tags = {
-    foo = "bar"
-  }
 }

@@ -1,18 +1,20 @@
-data "azurecaf_name" "function_app" {
-  name          = var.stack
-  resource_type = "azurerm_function_app"
-  prefixes      = local.function_name_prefix == "" ? null : [local.function_name_prefix]
-  suffixes      = compact([var.client_name, var.location_short, var.environment, local.name_suffix, var.use_caf_naming ? "" : "func"])
+locals {
+  unique_prefix = var.use_caf_naming ? compact(["${var.workload}${var.unique}", local.name_suffix]) : compact([var.workload, local.name_suffix])
+}
+
+data "azurecaf_name" "application_insights" {
+  resource_type = "azurerm_application_insights"
+  prefixes      = compact([var.workload, local.name_suffix])
+  suffixes      = compact([var.use_caf_naming ? "" : "ai"])
   use_slug      = var.use_caf_naming
   clean_input   = true
   separator     = "-"
 }
 
-data "azurecaf_name" "application_insights" {
-  name          = var.stack
-  resource_type = "azurerm_application_insights"
-  prefixes      = local.ai_name_prefix == "" ? null : [local.ai_name_prefix]
-  suffixes      = compact([var.client_name, var.location_short, var.environment, local.name_suffix, var.use_caf_naming ? "" : "ai"])
+data "azurecaf_name" "function_app" {
+  resource_type = "azurerm_function_app"
+  prefixes      = local.unique_prefix
+  suffixes      = compact([var.use_caf_naming ? "" : "fa"])
   use_slug      = var.use_caf_naming
   clean_input   = true
   separator     = "-"

@@ -1,15 +1,10 @@
-variable "client_name" {
-  description = "Client name/account used in naming."
-  type        = string
-}
-
-variable "environment" {
-  description = "Project environment."
-  type        = string
-}
-
 variable "resource_group_name" {
   description = "Resource group name."
+  type        = string
+}
+
+variable "workload" {
+  description = "Workload name."
   type        = string
 }
 
@@ -23,6 +18,12 @@ variable "location_short" {
   description = "Short string for Azure location."
   type        = string
   default     = "ne1"
+}
+
+variable "unique" {
+  description = "Unique string to ensure uniqueness of resources."
+  type        = string
+  default     = null
 }
 
 variable "function_app_version" {
