@@ -49,7 +49,6 @@ resource "azurerm_linux_function_app" "linux_function" {
       websockets_enabled                = lookup(site_config.value, "websockets_enabled", false)
 
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
-      application_insights_key               = lookup(site_config.value, "application_insights_key", false)
 
       pre_warmed_instance_count = lookup(site_config.value, "pre_warmed_instance_count", null)
       elastic_instance_minimum  = lookup(site_config.value, "elastic_instance_minimum", null)
@@ -208,7 +207,6 @@ resource "azurerm_linux_function_app_slot" "linux_function_slot" {
       websockets_enabled                = lookup(site_config.value, "websockets_enabled", false)
 
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
-      application_insights_key               = lookup(site_config.value, "application_insights_key", false)
 
       pre_warmed_instance_count = lookup(site_config.value, "pre_warmed_instance_count", null)
       elastic_instance_minimum  = lookup(site_config.value, "elastic_instance_minimum", null)
