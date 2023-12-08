@@ -310,3 +310,10 @@ resource "azurerm_linux_function_app_slot" "linux_function_slot" {
 
   tags = merge(var.extra_tags, var.function_app_extra_tags, local.default_tags)
 }
+
+resource "azurerm_role_assignment" "kv_secrets_user" {
+  count                = var.web_app_key_vault_id != null ? 1 : 0
+  scope                = var.web_app_key_vault_id
+  principal_id         = azurerm_linux_function_app.linux_function.identity[0].principal_id
+  role_definition_name = "Key Vault Secrets User"
+}
