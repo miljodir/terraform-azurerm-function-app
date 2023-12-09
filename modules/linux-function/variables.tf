@@ -192,7 +192,7 @@ variable "storage_uses_managed_identity" {
   default     = false
 }
 
-variable "web_app_key_vault_id" {
+variable "function_app_key_vault_id" {
   description = "ID of the existing key vault to grant read access to the web app identity."
   type        = string
   default     = null

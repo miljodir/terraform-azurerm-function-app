@@ -14,7 +14,7 @@ module "storage" {
   }
 
   resource_group_name  = var.resource_group_name
-  storage_account_name = "${replace(var.resource_group_name, "-", "")}deploy"
+  storage_account_name = local.storage_account_name
 
   account_kind                         = "StorageV2"
   blob_soft_delete_retention_days      = 7
