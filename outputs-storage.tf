@@ -31,8 +31,3 @@ output "storage_account_secondary_access_key" {
   value       = local.function_output.storage_account_secondary_access_key
   sensitive   = true
 }
-
-output "storage_account_network_rules" {
-  description = "Network rules of the associated Storage Account"
-  value       = local.function_output.storage_account_network_rules
-}
