@@ -75,3 +75,9 @@ variable "storage_account_authorized_ips" {
   type        = list(string)
   default     = []
 }
+
+variable "storage_account_is_hns_enabled" {
+  description = "Whether Hierarchical Namespace is enabled for the Storage Account."
+  type        = bool
+  default     = false
+}

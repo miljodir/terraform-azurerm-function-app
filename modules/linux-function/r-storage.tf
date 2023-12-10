@@ -19,7 +19,7 @@ module "storage" {
   account_kind                         = "StorageV2"
   blob_soft_delete_retention_days      = 7
   container_soft_delete_retention_days = 7
-  is_hns_enabled                       = false
+  is_hns_enabled                       = var.storage_account_is_hns_enabled
   min_tls_version                      = "TLS1_2"
   shared_access_key_enabled            = false
   sku_name                             = "Standard_LRS"

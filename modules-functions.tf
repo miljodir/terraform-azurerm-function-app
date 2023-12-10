@@ -34,6 +34,7 @@ module "linux_function" {
   storage_account_identity_type                     = var.storage_account_identity_type
   storage_account_identity_ids                      = var.storage_account_identity_ids
   storage_subnet_id                                 = var.storage_subnet_id
+  storage_account_is_hns_enabled                    = var.storage_account_is_hns_enabled
 
   service_plan_id = module.service_plan.service_plan_id
 
@@ -148,6 +149,7 @@ module "windows_function" {
   storage_account_identity_type                     = var.storage_account_identity_type
   storage_account_identity_ids                      = var.storage_account_identity_ids
   storage_subnet_id                                 = var.storage_subnet_id
+  storage_account_is_hns_enabled                    = var.storage_account_is_hns_enabled
 
   service_plan_id = module.service_plan.service_plan_id
 
