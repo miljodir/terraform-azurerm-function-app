@@ -30,6 +30,7 @@ module "linux_function" {
   storage_account_min_tls_version                   = var.storage_account_min_tls_version
   storage_account_identity_type                     = var.storage_account_identity_type
   storage_account_identity_ids                      = var.storage_account_identity_ids
+  storage_subnet_id                                 = var.storage_subnet_id
 
   service_plan_id = module.service_plan.service_plan_id
 
@@ -141,6 +142,7 @@ module "windows_function" {
   storage_account_min_tls_version                   = var.storage_account_min_tls_version
   storage_account_identity_type                     = var.storage_account_identity_type
   storage_account_identity_ids                      = var.storage_account_identity_ids
+  storage_subnet_id                                 = var.storage_subnet_id
 
   service_plan_id = module.service_plan.service_plan_id
 
