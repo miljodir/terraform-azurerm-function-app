@@ -18,7 +18,10 @@ module "linux_function" {
   name_prefix    = var.name_prefix
   name_suffix    = var.name_suffix
 
-  storage_uses_managed_identity = var.storage_uses_managed_identity
+  storage_uses_managed_identity  = var.storage_uses_managed_identity
+  function_app_key_vault_id      = var.function_app_key_vault_id
+  skip_identity_role_assignments = var.skip_identity_role_assignments
+
 
   storage_account_name_prefix                       = var.storage_account_name_prefix
   storage_account_custom_name                       = var.storage_account_custom_name
@@ -130,7 +133,9 @@ module "windows_function" {
   name_prefix    = var.name_prefix
   name_suffix    = var.name_suffix
 
-  storage_uses_managed_identity = var.storage_uses_managed_identity
+  storage_uses_managed_identity  = var.storage_uses_managed_identity
+  function_app_key_vault_id      = var.function_app_key_vault_id
+  skip_identity_role_assignments = var.skip_identity_role_assignments
 
   storage_account_name_prefix                       = var.storage_account_name_prefix
   storage_account_custom_name                       = var.storage_account_custom_name

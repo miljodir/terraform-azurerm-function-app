@@ -197,3 +197,9 @@ variable "function_app_key_vault_id" {
   type        = string
   default     = null
 }
+
+variable "skip_identity_role_assignments" {
+  description = "Whether to skip the role assignments for the identity. Useful if you want to manage the role assignments yourself or if a managed identity is not yet assigned"
+  type        = bool
+  default     = false
+}

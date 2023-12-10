@@ -36,7 +36,7 @@ module "storage" {
 }
 
 resource "azurerm_role_assignment" "functionapp_storage_dataowner" {
-  count                = var.storage_uses_managed_identity && can(azurerm_linux_function_app.linux_function.identity[0]) ? 1 : 0
+  count                = var.storage_uses_managed_identity && var.skip_identity_role_assignments == false ? 1 : 0
   role_definition_name = "Storage Blob Data Owner"
   scope                = data.azurerm_storage_account.storage.id
   principal_id         = azurerm_linux_function_app.linux_function.identity[0].principal_id
