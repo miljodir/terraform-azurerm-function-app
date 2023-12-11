@@ -74,6 +74,7 @@ module "linux_function" {
   authorized_subnet_ids                   = var.authorized_subnet_ids
   ip_restriction_headers                  = var.ip_restriction_headers
   function_app_vnet_integration_subnet_id = var.function_app_vnet_integration_subnet_id
+  function_app_pe_subnet_id               = var.function_app_pe_subnet_id
 
   storage_account_network_rules_enabled = var.storage_account_network_rules_enabled
   storage_account_network_bypass        = var.storage_account_network_bypass
@@ -189,6 +190,7 @@ module "windows_function" {
   authorized_subnet_ids                   = var.authorized_subnet_ids
   ip_restriction_headers                  = var.ip_restriction_headers
   function_app_vnet_integration_subnet_id = var.function_app_vnet_integration_subnet_id
+  function_app_pe_subnet_id               = var.function_app_pe_subnet_id
   storage_account_network_rules_enabled   = var.storage_account_network_rules_enabled
   storage_account_network_bypass          = var.storage_account_network_bypass
   storage_account_authorized_ips          = var.storage_account_authorized_ips
