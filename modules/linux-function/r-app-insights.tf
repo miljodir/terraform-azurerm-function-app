@@ -34,6 +34,10 @@ resource "azurerm_application_insights" "app_insights" {
     var.application_insights_extra_tags,
     var.extra_tags,
   )
+
+  lifecycle {
+    ignore_changes = [application_type, name] # Do not recreate exisiting app insights
+  }
 }
 
 
