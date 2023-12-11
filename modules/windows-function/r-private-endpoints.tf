@@ -11,6 +11,11 @@ resource "azurerm_private_endpoint" "main_pe" {
     subresource_names              = ["sites"]
     is_manual_connection           = false
   }
+
+  lifecycle {
+    # Avoid recreation of the private endpoint due to moving to central module
+    ignore_changes = [name]
+  }
 }
 
 resource "azurerm_private_dns_a_record" "main" {
