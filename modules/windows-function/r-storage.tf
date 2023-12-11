@@ -21,10 +21,10 @@ module "storage" {
   container_soft_delete_retention_days = 7
   is_hns_enabled                       = var.storage_account_is_hns_enabled
   min_tls_version                      = "TLS1_2"
-  shared_access_key_enabled            = false
+  shared_access_key_enabled            = var.storage_uses_managed_identity == false ? true : false
   sku_name                             = "Standard_LRS"
   subnet_id                            = var.storage_subnet_id != null ? var.storage_subnet_id : null
-  public_network_access_enabled        = false
+  public_network_access_enabled        = var.storage_subnet_id != null ? false : true
   allow_nested_items_to_be_public      = false
 
   private_endpoints = concat(local.storage_default_private_endpoints, var.storage_private_endpoints)
