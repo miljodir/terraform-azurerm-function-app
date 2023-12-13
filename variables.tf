@@ -193,3 +193,9 @@ variable "skip_identity_role_assignments" {
   type        = bool
   default     = false
 }
+
+variable "function_app_public_network_access_enabled" {
+  description = "Whether the Function App is accessible from the public internet."
+  type        = bool
+  default     = false
+}

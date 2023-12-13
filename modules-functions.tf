@@ -46,6 +46,7 @@ module "linux_function" {
   function_app_version                           = var.function_app_version
   site_config                                    = var.function_app_site_config
   sticky_settings                                = var.function_app_sticky_settings
+  function_app_public_network_access_enabled     = var.function_app_public_network_access_enabled
 
   application_insights_name_prefix                           = var.application_insights_name_prefix
   application_insights_enabled                               = var.application_insights_enabled
@@ -163,6 +164,7 @@ module "windows_function" {
   function_app_version                           = var.function_app_version
   site_config                                    = var.function_app_site_config
   sticky_settings                                = var.function_app_sticky_settings
+  function_app_public_network_access_enabled     = var.function_app_public_network_access_enabled
 
   application_insights_name_prefix                           = var.application_insights_name_prefix
   application_insights_enabled                               = var.application_insights_enabled
