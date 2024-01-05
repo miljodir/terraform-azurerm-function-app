@@ -1,6 +1,7 @@
 variable "service_plan_id" {
   description = "ID of the existing Service Plan that hosts the App Service. Leave empty to create a new plan."
   type        = string
+  default     = null
 }
 
 locals {
