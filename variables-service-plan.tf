@@ -1,3 +1,12 @@
+variable "service_plan_id" {
+  description = "ID of the existing Service Plan that hosts the App Service. Leave empty to create a new plan."
+  type        = string
+}
+
+locals {
+  service_plan_id = try(var.service_plan_id, module.service_plan.service_plan_id)
+}
+
 variable "os_type" {
   description = "OS type for the Functions to be hosted in the Service Plan. Possible values include `Windows`, `Linux`, and `WindowsContainer`."
   type        = string

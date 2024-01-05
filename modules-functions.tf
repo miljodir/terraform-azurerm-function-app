@@ -37,7 +37,7 @@ module "linux_function" {
   storage_account_is_hns_enabled                    = var.storage_account_is_hns_enabled
   storage_private_endpoints                         = var.storage_private_endpoints
 
-  service_plan_id = module.service_plan.service_plan_id
+  service_plan_id = local.service_plan_id
 
   function_app_name_prefix                       = var.function_app_name_prefix
   function_app_custom_name                       = var.function_app_custom_name
@@ -155,7 +155,7 @@ module "windows_function" {
   storage_account_is_hns_enabled                    = var.storage_account_is_hns_enabled
   storage_private_endpoints                         = var.storage_private_endpoints
 
-  service_plan_id = module.service_plan.service_plan_id
+  service_plan_id = local.service_plan_id
 
   function_app_name_prefix                       = var.function_app_name_prefix
   function_app_custom_name                       = var.function_app_custom_name
