@@ -40,6 +40,7 @@ resource "azurerm_role_assignment" "functionapp_storage_dataowner" {
   role_definition_name = "Storage Blob Data Owner"
   scope                = data.azurerm_storage_account.storage.id
   principal_id         = azurerm_windows_function_app.windows_function.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
 }
 
 data "azurerm_storage_account" "storage" {

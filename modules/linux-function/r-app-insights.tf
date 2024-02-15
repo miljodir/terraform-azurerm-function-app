@@ -45,5 +45,6 @@ resource "azurerm_role_assignment" "appinsights_publisher" {
   count                = var.application_insights_enabled && var.skip_identity_role_assignments == false ? 1 : 0
   scope                = local.app_insights.id
   principal_id         = azurerm_linux_function_app.linux_function.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
   role_definition_name = "Monitoring Metrics Publisher"
 }
