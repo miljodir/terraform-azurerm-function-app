@@ -288,4 +288,5 @@ resource "azurerm_role_assignment" "kv_secrets_user" {
   scope                = var.function_app_key_vault_id
   principal_id         = azurerm_windows_function_app.windows_function.identity[0].principal_id
   role_definition_name = "Key Vault Secrets User"
+  principal_type       = "ServicePrincipal"
 }

@@ -46,4 +46,5 @@ resource "azurerm_role_assignment" "appinsights_publisher" {
   scope                = local.app_insights.id
   principal_id         = azurerm_windows_function_app.windows_function.identity[0].principal_id
   role_definition_name = "Monitoring Metrics Publisher"
+  principal_type       = "ServicePrincipal"
 }
