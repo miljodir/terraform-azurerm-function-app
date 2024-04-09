@@ -23,7 +23,7 @@ data "azurecaf_name" "function_app" {
 data "azurecaf_name" "storage_account" {
   resource_type = "azurerm_storage_account"
   prefixes      = local.unique_prefix
-  suffixes      = compact(["deploy"])
+  suffixes      = length(replace(local.unique_prefix[0], "-", "")) <= 18 ? compact(["depl"]) : null
   use_slug      = var.use_caf_naming
   clean_input   = true
 }
