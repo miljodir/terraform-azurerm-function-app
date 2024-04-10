@@ -36,6 +36,7 @@ module "linux_function" {
   storage_subnet_id                                 = var.storage_subnet_id
   storage_account_is_hns_enabled                    = var.storage_account_is_hns_enabled
   storage_private_endpoints                         = var.storage_private_endpoints
+  storage_ip_rules                                  = var.storage_ip_rules
 
   service_plan_id = local.service_plan_id
 
@@ -155,6 +156,7 @@ module "windows_function" {
   storage_subnet_id                                 = var.storage_subnet_id
   storage_account_is_hns_enabled                    = var.storage_account_is_hns_enabled
   storage_private_endpoints                         = var.storage_private_endpoints
+  storage_ip_rules                                  = var.storage_ip_rules
 
   service_plan_id = local.service_plan_id
 

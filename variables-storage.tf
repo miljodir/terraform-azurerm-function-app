@@ -16,6 +16,12 @@ variable "storage_subnet_id" {
   default     = null
 }
 
+variable "storage_ip_rules" {
+  description = "IPs restrictions for Storage Account in CIDR format."
+  type        = list(string)
+  default     = []
+}
+
 variable "storage_private_endpoints" {
   description = "Private endpoints to create for the Storage Account."
   type        = list(string)

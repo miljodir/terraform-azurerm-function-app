@@ -32,6 +32,7 @@ module "storage" {
     default_action = var.storage_subnet_id != null ? "Deny" : "Allow"
     bypass         = ["None"]
     subnet_ids     = []
+    ip_rules       = var.storage_ip_rules
   }
 }
 
