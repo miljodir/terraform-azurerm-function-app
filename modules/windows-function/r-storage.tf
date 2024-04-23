@@ -47,6 +47,4 @@ resource "azurerm_role_assignment" "functionapp_storage_dataowner" {
 data "azurerm_storage_account" "storage" {
   name                = var.use_existing_storage_account ? split("/", var.storage_account_id)[8] : module.storage["enabled"].storage_account.name
   resource_group_name = var.use_existing_storage_account ? split("/", var.storage_account_id)[4] : var.resource_group_name
-
-  depends_on = [module.storage]
 }
