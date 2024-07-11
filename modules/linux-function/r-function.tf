@@ -21,6 +21,9 @@ resource "azurerm_linux_function_app" "linux_function" {
   virtual_network_subnet_id     = var.function_app_vnet_integration_subnet_id
   public_network_access_enabled = var.function_app_public_network_access_enabled
 
+  ftp_publish_basic_authentication_enabled       = lookup(local.site_config, "ftp_publish_basic_authentication_enabled", false)
+  webdeploy_publish_basic_authentication_enabled = lookup(local.site_config, "webdeploy_publish_basic_authentication_enabled", false)
+
   app_settings = merge(
     local.default_application_settings,
     var.function_app_application_settings,
@@ -176,7 +179,9 @@ resource "azurerm_linux_function_app_slot" "linux_function_slot" {
 
   functions_extension_version = "~${var.function_app_version}"
 
-  virtual_network_subnet_id = var.function_app_vnet_integration_subnet_id
+  virtual_network_subnet_id                      = var.function_app_vnet_integration_subnet_id
+  ftp_publish_basic_authentication_enabled       = lookup(local.site_config, "ftp_publish_basic_authentication_enabled", false)
+  webdeploy_publish_basic_authentication_enabled = lookup(local.site_config, "webdeploy_publish_basic_authentication_enabled", false)
 
   app_settings = var.staging_slot_custom_application_settings == null ? {
     for k, v in merge(local.default_application_settings, var.function_app_application_settings) : k => v if k != "WEBSITE_RUN_FROM_PACKAGE"
