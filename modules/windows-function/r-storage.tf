@@ -44,6 +44,14 @@ resource "azurerm_role_assignment" "functionapp_storage_dataowner" {
   principal_type       = "ServicePrincipal"
 }
 
+resource "azurerm_role_assignment" "functionapp_slot_storage_dataowner" {
+  count                = var.staging_slot_enabled && var.storage_uses_managed_identity && var.skip_identity_role_assignments == false ? 1 : 0
+  scope                = var.function_app_key_vault_id
+  principal_id         = azurerm_windows_function_app_slot.azurerm_windows_function_app_slot.identity[0].principal_id
+  role_definition_name = "Storage Blob Data Owner"
+  principal_type       = "ServicePrincipal"
+}
+
 data "azurerm_storage_account" "storage" {
   name                = var.use_existing_storage_account ? split("/", var.storage_account_id)[8] : module.storage["enabled"].storage_account.name
   resource_group_name = var.use_existing_storage_account ? split("/", var.storage_account_id)[4] : var.resource_group_name
