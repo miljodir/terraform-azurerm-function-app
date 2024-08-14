@@ -168,7 +168,7 @@ resource "azurerm_windows_function_app_slot" "windows_function_slot" {
   functions_extension_version = "~${var.function_app_version}"
 
   virtual_network_subnet_id                      = var.function_app_vnet_integration_subnet_id
-  public_network_access_enabled = var.function_app_public_network_access_enabled
+  public_network_access_enabled                  = var.function_app_public_network_access_enabled
   ftp_publish_basic_authentication_enabled       = lookup(local.site_config, "ftp_publish_basic_authentication_enabled", false)
   webdeploy_publish_basic_authentication_enabled = lookup(local.site_config, "webdeploy_publish_basic_authentication_enabled", false)
 
@@ -300,7 +300,7 @@ resource "azurerm_role_assignment" "kv_secrets_user" {
 resource "azurerm_role_assignment" "kv_secrets_user_slot" {
   count                = var.staging_slot_enabled && var.function_app_key_vault_id != null && var.skip_identity_role_assignments == false ? 1 : 0
   scope                = var.function_app_key_vault_id
-  principal_id         = azurerm_windows_function_app_slot.azurerm_windows_function_app_slot.identity[0].principal_id
+  principal_id         = azurerm_windows_function_app_slot.windows_function_slot.identity[0].principal_id
   role_definition_name = "Key Vault Secrets User"
   principal_type       = "ServicePrincipal"
 }

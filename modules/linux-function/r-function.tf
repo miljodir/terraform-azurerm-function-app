@@ -184,7 +184,7 @@ resource "azurerm_linux_function_app_slot" "linux_function_slot" {
   virtual_network_subnet_id                      = var.function_app_vnet_integration_subnet_id
   ftp_publish_basic_authentication_enabled       = lookup(local.site_config, "ftp_publish_basic_authentication_enabled", false)
   webdeploy_publish_basic_authentication_enabled = lookup(local.site_config, "webdeploy_publish_basic_authentication_enabled", false)
-  public_network_access_enabled = var.function_app_public_network_access_enabled
+  public_network_access_enabled                  = var.function_app_public_network_access_enabled
 
   app_settings = var.staging_slot_custom_application_settings == null ? {
     for k, v in merge(local.default_application_settings, var.function_app_application_settings) : k => v if k != "WEBSITE_RUN_FROM_PACKAGE"
@@ -330,7 +330,7 @@ resource "azurerm_role_assignment" "kv_secrets_user" {
 resource "azurerm_role_assignment" "kv_secrets_user_slot" {
   count                = var.staging_slot_enabled && var.function_app_key_vault_id != null && var.skip_identity_role_assignments == false ? 1 : 0
   scope                = var.function_app_key_vault_id
-  principal_id         = azurerm_linux_function_app_slot.azurerm_linux_function_app_slot.identity[0].principal_id
+  principal_id         = azurerm_linux_function_app_slot.linux_function_slot.identity[0].principal_id
   role_definition_name = "Key Vault Secrets User"
   principal_type       = "ServicePrincipal"
 }
