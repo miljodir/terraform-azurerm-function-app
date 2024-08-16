@@ -199,3 +199,9 @@ variable "function_app_public_network_access_enabled" {
   type        = bool
   default     = false
 }
+
+variable "staging_only" {
+  description = "Only create the staging slot."
+  type        = bool
+  default     = false
+}

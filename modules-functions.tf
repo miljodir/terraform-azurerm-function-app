@@ -99,6 +99,7 @@ module "linux_function" {
   staging_slot_enabled                     = var.staging_slot_enabled
   staging_slot_custom_name                 = var.staging_slot_custom_name
   staging_slot_custom_application_settings = var.staging_slot_custom_application_settings
+  staging_only                             = var.staging_only
 
   default_tags_enabled = var.default_tags_enabled
 
@@ -218,6 +219,7 @@ module "windows_function" {
   staging_slot_enabled                     = var.staging_slot_enabled
   staging_slot_custom_name                 = var.staging_slot_custom_name
   staging_slot_custom_application_settings = var.staging_slot_custom_application_settings
+  staging_only                             = var.staging_only
 
   default_tags_enabled = var.default_tags_enabled
 

@@ -203,3 +203,9 @@ variable "skip_identity_role_assignments" {
   type        = bool
   default     = false
 }
+
+variable "staging_only" {
+  description = "Only create the staging slot."
+  type        = bool
+  default     = false
+}

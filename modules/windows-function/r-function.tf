@@ -4,9 +4,16 @@ data "azurerm_service_plan" "plan" {
   resource_group_name = element(split("/", var.service_plan_id), 4)
 }
 
+
+moved {
+  from = azurerm_windows_function_app.windows_function
+  to   = azurerm_windows_function_app.windows_function[0]
+}
+
 # Function App
 resource "azurerm_windows_function_app" "windows_function" {
-  name = local.function_app_name
+  count = var.staging_only ? 0 : 1
+  name  = local.function_app_name
 
   service_plan_id     = var.service_plan_id
   location            = var.location
@@ -290,7 +297,7 @@ resource "azurerm_windows_function_app_slot" "windows_function_slot" {
 }
 
 resource "azurerm_role_assignment" "kv_secrets_user" {
-  count                = var.function_app_key_vault_id != null && var.skip_identity_role_assignments == false ? 1 : 0
+  count                = var.staging_only == false && var.function_app_key_vault_id != null && var.skip_identity_role_assignments == false ? 1 : 0
   scope                = var.function_app_key_vault_id
   principal_id         = azurerm_windows_function_app.windows_function.identity[0].principal_id
   role_definition_name = "Key Vault Secrets User"
