@@ -87,6 +87,12 @@ variable "function_app_vnet_integration_subnet_id" {
   default     = null
 }
 
+variable "function_app_vnet_image_pull_enabled" {
+  description = "Whether the Function App can pull images from the container registry over the VNet."
+  type        = bool
+  default     = false
+}
+
 variable "function_app_pe_subnet_id" {
   description = "value of the subnet to associate the private endpoint with the Function App (Incoming traffic)"
   type        = string

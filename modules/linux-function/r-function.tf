@@ -19,6 +19,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   functions_extension_version = "~${var.function_app_version}"
 
   virtual_network_subnet_id     = var.function_app_vnet_integration_subnet_id
+  vnet_image_pull_enabled       = var.function_app_vnet_image_pull_enabled
   public_network_access_enabled = var.function_app_public_network_access_enabled
 
   ftp_publish_basic_authentication_enabled       = lookup(local.site_config, "ftp_publish_basic_authentication_enabled", false)
@@ -57,8 +58,7 @@ resource "azurerm_linux_function_app" "linux_function" {
       elastic_instance_minimum  = lookup(site_config.value, "elastic_instance_minimum", null)
       worker_count              = lookup(site_config.value, "worker_count", null)
 
-      vnet_route_all_enabled  = lookup(site_config.value, "vnet_route_all_enabled", var.function_app_vnet_integration_subnet_id != null)
-      vnet_image_pull_enabled = lookup(site_config.value, "vnet_image_pull_enabled", null)
+      vnet_route_all_enabled = lookup(site_config.value, "vnet_route_all_enabled", var.function_app_vnet_integration_subnet_id != null)
 
       dynamic "ip_restriction" {
         for_each = concat(local.subnets, local.cidrs, local.service_tags)
