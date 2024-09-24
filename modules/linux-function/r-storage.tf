@@ -26,6 +26,7 @@ module "storage" {
   subnet_id                            = var.storage_subnet_id != null ? var.storage_subnet_id : null
   public_network_access_enabled        = var.storage_subnet_id != null && length(var.storage_ip_rules) == 0 ? false : true
   allow_nested_items_to_be_public      = false
+  location                             = var.location
 
   private_endpoints = concat(local.storage_default_private_endpoints, var.storage_private_endpoints)
   network_rules = {
