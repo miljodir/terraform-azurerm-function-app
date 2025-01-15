@@ -14,7 +14,10 @@ resource "azurerm_private_endpoint" "main_pe" {
 
   lifecycle {
     # Avoid recreation of the private endpoint due to moving to central module
-    ignore_changes = [private_service_connection[0].name]
+    ignore_changes = [
+      private_service_connection[0].name,
+      private_dns_zone_group,
+    ]
   }
 }
 
