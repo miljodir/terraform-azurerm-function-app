@@ -1,3 +1,15 @@
+locals {
+  function_app_public_network_access_enabled = split("-", var.workload)[0] == "d" ? true : var.function_app_public_network_access_enabled ? true : false
+  scm_authorized_ips                         = local.function_app_public_network_access_enabled ? try(concat(values(module.network_vars[0].known_public_ips), var.scm_authorized_ips), (values(module.network_vars[0].known_public_ips))) : []
+  authorized_ips                             = local.function_app_public_network_access_enabled ? try(concat(values(module.network_vars[0].known_public_ips), var.authorized_ips), (values(module.network_vars[0].known_public_ips))) : []
+}
+
+module "network_vars" {
+  # private module used for public IP whitelisting
+  count  = local.function_app_public_network_access_enabled == true ? 1 : 0
+  source = "git@github.com:miljodir/cp-shared.git//modules/public_nw_ips?ref=public_nw_ips/v1"
+}
+
 module "linux_function" {
   for_each = toset(lower(var.os_type) == "linux" ? ["enabled"] : [])
 
@@ -47,7 +59,7 @@ module "linux_function" {
   function_app_version                           = var.function_app_version
   site_config                                    = var.function_app_site_config
   sticky_settings                                = var.function_app_sticky_settings
-  function_app_public_network_access_enabled     = var.function_app_public_network_access_enabled
+  function_app_public_network_access_enabled     = local.function_app_public_network_access_enabled
   unique                                         = var.unique
 
   application_insights_name_prefix                           = var.application_insights_name_prefix
@@ -73,7 +85,7 @@ module "linux_function" {
   logs_categories         = var.logs_categories
   logs_metrics_categories = var.logs_metrics_categories
 
-  authorized_ips                          = var.authorized_ips
+  authorized_ips                          = local.authorized_ips
   authorized_service_tags                 = var.authorized_service_tags
   authorized_subnet_ids                   = var.authorized_subnet_ids
   ip_restriction_headers                  = var.ip_restriction_headers
@@ -85,7 +97,7 @@ module "linux_function" {
   storage_account_network_bypass        = var.storage_account_network_bypass
   storage_account_authorized_ips        = var.storage_account_authorized_ips
 
-  scm_authorized_ips          = var.scm_authorized_ips
+  scm_authorized_ips          = local.scm_authorized_ips
   scm_authorized_subnet_ids   = var.scm_authorized_subnet_ids
   scm_authorized_service_tags = var.scm_authorized_service_tags
   scm_ip_restriction_headers  = var.scm_ip_restriction_headers
@@ -168,7 +180,7 @@ module "windows_function" {
   function_app_version                           = var.function_app_version
   site_config                                    = var.function_app_site_config
   sticky_settings                                = var.function_app_sticky_settings
-  function_app_public_network_access_enabled     = var.function_app_public_network_access_enabled
+  function_app_public_network_access_enabled     = local.function_app_public_network_access_enabled
   unique                                         = var.unique
 
   application_insights_name_prefix                           = var.application_insights_name_prefix
@@ -194,7 +206,7 @@ module "windows_function" {
   logs_categories         = var.logs_categories
   logs_metrics_categories = var.logs_metrics_categories
 
-  authorized_ips                          = var.authorized_ips
+  authorized_ips                          = local.authorized_ips
   authorized_service_tags                 = var.authorized_service_tags
   authorized_subnet_ids                   = var.authorized_subnet_ids
   ip_restriction_headers                  = var.ip_restriction_headers
@@ -205,7 +217,7 @@ module "windows_function" {
   storage_account_network_bypass          = var.storage_account_network_bypass
   storage_account_authorized_ips          = var.storage_account_authorized_ips
 
-  scm_authorized_ips          = var.scm_authorized_ips
+  scm_authorized_ips          = local.scm_authorized_ips
   scm_authorized_subnet_ids   = var.scm_authorized_subnet_ids
   scm_authorized_service_tags = var.scm_authorized_service_tags
   scm_ip_restriction_headers  = var.scm_ip_restriction_headers
