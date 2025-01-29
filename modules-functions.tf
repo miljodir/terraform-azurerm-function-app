@@ -1,7 +1,11 @@
 locals {
   function_app_public_network_access_enabled = split("-", var.workload)[0] == "d" ? true : var.function_app_public_network_access_enabled ? true : false
-  scm_authorized_ips                         = local.function_app_public_network_access_enabled ? try(concat(values(module.network_vars[0].known_public_ips), var.scm_authorized_ips), (values(module.network_vars[0].known_public_ips))) : []
-  authorized_ips                             = local.function_app_public_network_access_enabled ? try(concat(values(module.network_vars[0].known_public_ips), var.authorized_ips), (values(module.network_vars[0].known_public_ips))) : []
+  scm_authorized_ips = [for ip in(local.function_app_public_network_access_enabled ? try(concat(values(module.network_vars[0].known_public_ips), var.scm_authorized_ips), (values(module.network_vars[0].known_public_ips))) : []) :
+    can(regex(".*\\/\\d+$", ip)) ? ip : format("%s/32", ip)
+  ]
+  authorized_ips = [for ip in(local.function_app_public_network_access_enabled ? try(concat(values(module.network_vars[0].known_public_ips), var.authorized_ips), (values(module.network_vars[0].known_public_ips))) : []) :
+    can(regex(".*\\/\\d+$", ip)) ? ip : format("%s/32", ip)
+  ]
 }
 
 module "network_vars" {
