@@ -9,8 +9,7 @@ module "storage" {
   version = "~> 1.0"
 
   providers = {
-    azurerm       = azurerm
-    azurerm.p-dns = azurerm.p-dns
+    azurerm = azurerm
   }
 
   resource_group_name  = var.resource_group_name

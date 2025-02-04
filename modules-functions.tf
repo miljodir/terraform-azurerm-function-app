@@ -18,8 +18,7 @@ module "linux_function" {
   for_each = toset(lower(var.os_type) == "linux" ? ["enabled"] : [])
 
   providers = {
-    azurerm.p-dns = azurerm.p-dns
-    azurerm       = azurerm
+    azurerm = azurerm
   }
 
   source = "./modules/linux-function"
@@ -141,8 +140,7 @@ module "windows_function" {
   for_each = toset(lower(var.os_type) == "windows" ? ["enabled"] : [])
 
   providers = {
-    azurerm.p-dns = azurerm.p-dns
-    azurerm       = azurerm
+    azurerm = azurerm
   }
 
   source = "./modules/windows-function"

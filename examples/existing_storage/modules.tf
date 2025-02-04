@@ -11,8 +11,7 @@ module "functions_storage_account" {
   source  = "miljodir/storage-account/azurerm"
   version = "~> 1.0"
   providers = {
-    azurerm       = azurerm
-    azurerm.p-dns = azurerm.p-dns
+    azurerm = azurerm
   }
 
   resource_group_name                  = azurerm_resource_group.rg.name
