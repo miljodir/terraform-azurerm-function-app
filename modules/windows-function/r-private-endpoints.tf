@@ -21,24 +21,16 @@ resource "azurerm_private_endpoint" "main_pe" {
   }
 }
 
-resource "azurerm_private_dns_a_record" "main" {
-  count               = var.function_app_pe_subnet_id != null ? 1 : 0
-  name                = azurerm_windows_function_app.windows_function.name
-  records             = [azurerm_private_endpoint.main_pe[0].private_service_connection[0].private_ip_address]
-  resource_group_name = "p-dns-pri"
-  ttl                 = 600
-  zone_name           = "privatelink.azurewebsites.net"
-
-  provider = azurerm.p-dns
+removed {
+  from = azurerm_private_dns_a_record.main
+  lifecycle {
+    destroy = false
+  }
 }
 
-resource "azurerm_private_dns_a_record" "main_scm" {
-  count               = var.function_app_pe_subnet_id != null ? 1 : 0
-  name                = "${azurerm_windows_function_app.windows_function.name}.scm"
-  records             = [azurerm_private_endpoint.main_pe[0].private_service_connection[0].private_ip_address]
-  resource_group_name = "p-dns-pri"
-  ttl                 = 600
-  zone_name           = "privatelink.azurewebsites.net"
-
-  provider = azurerm.p-dns
+removed {
+  from = azurerm_private_dns_a_record.main_scm
+  lifecycle {
+    destroy = false
+  }
 }
