@@ -50,6 +50,8 @@ resource "azurerm_linux_function_app" "linux_function" {
       remote_debugging_version          = lookup(site_config.value, "remote_debugging_version", null)
       runtime_scale_monitoring_enabled  = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
       use_32_bit_worker                 = lookup(site_config.value, "use_32_bit_worker", null)
+      ip_restriction_default_action     = lookup(site_config.value, "ip_restriction_default_action", "Deny")
+      scm_ip_restriction_default_action = lookup(site_config.value, "scm_ip_restriction_default_action", "Deny")
       websockets_enabled                = lookup(site_config.value, "websockets_enabled", false)
 
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
@@ -211,6 +213,8 @@ resource "azurerm_linux_function_app_slot" "linux_function_slot" {
       remote_debugging_version          = lookup(site_config.value, "remote_debugging_version", null)
       runtime_scale_monitoring_enabled  = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
       use_32_bit_worker                 = lookup(site_config.value, "use_32_bit_worker", null)
+      ip_restriction_default_action     = lookup(site_config.value, "ip_restriction_default_action", "Deny")
+      scm_ip_restriction_default_action = lookup(site_config.value, "scm_ip_restriction_default_action", "Deny")
       websockets_enabled                = lookup(site_config.value, "websockets_enabled", false)
 
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
