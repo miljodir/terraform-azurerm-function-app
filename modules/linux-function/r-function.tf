@@ -45,7 +45,7 @@ resource "azurerm_linux_function_app" "linux_function" {
       http2_enabled                     = lookup(site_config.value, "http2_enabled", startswith(local.function_app_name, "d-") ? true : null)
       load_balancing_mode               = lookup(site_config.value, "load_balancing_mode", null)
       managed_pipeline_mode             = lookup(site_config.value, "managed_pipeline_mode", null)
-      minimum_tls_version               = lookup(site_config.value, "min_tls_version", !startswith(local.function_app_name, "p-") ? "1.2" : "1.3")
+      minimum_tls_version               = lookup(site_config.value, "min_tls_version", !startswith(local.function_app_name, "p-") ? "1.3" : "1.2")
       remote_debugging_enabled          = lookup(site_config.value, "remote_debugging_enabled", false)
       remote_debugging_version          = lookup(site_config.value, "remote_debugging_version", null)
       runtime_scale_monitoring_enabled  = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
@@ -89,7 +89,7 @@ resource "azurerm_linux_function_app" "linux_function" {
       }
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
-      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", !startswith(local.function_app_name, "p-") ? "1.2" : "1.3")
+      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", !startswith(local.function_app_name, "p-") ? "1.3" : "1.2")
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
 
       dynamic "application_stack" {
@@ -208,7 +208,7 @@ resource "azurerm_linux_function_app_slot" "linux_function_slot" {
       http2_enabled                     = lookup(site_config.value, "http2_enabled", startswith(local.function_app_name, "d-") ? true : null)
       load_balancing_mode               = lookup(site_config.value, "load_balancing_mode", null)
       managed_pipeline_mode             = lookup(site_config.value, "managed_pipeline_mode", null)
-      minimum_tls_version               = lookup(site_config.value, "min_tls_version", !startswith(local.function_app_name, "p-") ? "1.2" : "1.3")
+      minimum_tls_version               = lookup(site_config.value, "min_tls_version", !startswith(local.function_app_name, "p-") ? "1.3" : "1.2")
       remote_debugging_enabled          = lookup(site_config.value, "remote_debugging_enabled", false)
       remote_debugging_version          = lookup(site_config.value, "remote_debugging_version", null)
       runtime_scale_monitoring_enabled  = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
@@ -252,7 +252,7 @@ resource "azurerm_linux_function_app_slot" "linux_function_slot" {
       }
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
-      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", !startswith(local.function_app_name, "p-") ? "1.2" : "1.3")
+      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", !startswith(local.function_app_name, "p-") ? "1.3" : "1.2")
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
 
       dynamic "application_stack" {
