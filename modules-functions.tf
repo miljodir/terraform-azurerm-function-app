@@ -8,6 +8,7 @@ locals {
   ]
 }
 
+
 module "network_vars" {
   # private module used for public IP whitelisting
   count  = local.function_app_public_network_access_enabled == true ? 1 : 0
