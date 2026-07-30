@@ -22,8 +22,8 @@ variable "application_insights_daily_data_cap" {
   default     = null
 }
 
-variable "application_insights_daily_data_cap_notifications_disabled" {
-  description = "Whether disable email notifications when data volume cap is met."
+variable "application_insights_daily_data_cap_notifications_enabled" {
+  description = "Whether email notifications are enabled when the data volume cap is met."
   type        = bool
   default     = null
 }
@@ -46,16 +46,16 @@ variable "application_insights_internet_query_enabled" {
   default     = true
 }
 
-variable "application_insights_ip_masking_disabled" {
-  description = "Whether IP masking in logs is disabled."
+variable "application_insights_ip_masking_enabled" {
+  description = "Whether IP masking in logs is enabled."
   type        = bool
-  default     = false
+  default     = true
 }
 
-variable "application_insights_local_authentication_disabled" {
-  description = "Whether Non-Azure AD based authentication is disabled."
+variable "application_insights_local_authentication_enabled" {
+  description = "Whether non-Azure AD based authentication is enabled."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "application_insights_force_customer_storage_for_profiler" {
