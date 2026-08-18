@@ -45,7 +45,7 @@ resource "azurerm_windows_function_app" "windows_function" {
       http2_enabled                     = lookup(site_config.value, "http2_enabled", startswith(local.function_app_name, "d-") ? true : null)
       load_balancing_mode               = lookup(site_config.value, "load_balancing_mode", null)
       managed_pipeline_mode             = lookup(site_config.value, "managed_pipeline_mode", null)
-      minimum_tls_cipher_suite          = startswith(var.resource_group_name, "p-") ? null : "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+      minimum_tls_cipher_suite          = "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
       minimum_tls_version               = lookup(site_config.value, "min_tls_version", "1.3")
       remote_debugging_enabled          = lookup(site_config.value, "remote_debugging_enabled", false)
       remote_debugging_version          = lookup(site_config.value, "remote_debugging_version", null)
@@ -193,7 +193,7 @@ resource "azurerm_windows_function_app_slot" "windows_function_slot" {
       http2_enabled                     = lookup(site_config.value, "http2_enabled", startswith(local.function_app_name, "d-") ? true : null)
       load_balancing_mode               = lookup(site_config.value, "load_balancing_mode", null)
       managed_pipeline_mode             = lookup(site_config.value, "managed_pipeline_mode", null)
-      minimum_tls_cipher_suite          = startswith(var.resource_group_name, "p-") ? null : "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+      minimum_tls_cipher_suite          = "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
       minimum_tls_version               = lookup(site_config.value, "min_tls_version", "1.3")
       remote_debugging_enabled          = lookup(site_config.value, "remote_debugging_enabled", false)
       remote_debugging_version          = lookup(site_config.value, "remote_debugging_version", null)
