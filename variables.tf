@@ -57,6 +57,12 @@ variable "identity_ids" {
   default     = null
 }
 
+variable "function_app_key_vault_reference_identity_id" {
+  description = "ID of the user-assigned identity used to resolve Key Vault references. The identity must also be assigned to the Function App."
+  type        = string
+  default     = null
+}
+
 variable "authorized_ips" {
   description = "IPs restriction for Function in CIDR format. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/function_app#ip_restriction"
   type        = list(string)
@@ -101,6 +107,12 @@ variable "function_app_pe_subnet_id" {
 
 variable "function_app_site_config" {
   description = "Site config for Function App. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block."
+  type        = any
+  default     = {}
+}
+
+variable "function_app_auth_settings_v2" {
+  description = "Authentication Settings V2 for the Function App. Set `auth_enabled` to `true` to configure authentication."
   type        = any
   default     = {}
 }

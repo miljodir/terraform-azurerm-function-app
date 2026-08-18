@@ -6,6 +6,12 @@
 This repo is forked from claranet/terraform-azurerm-function-app and modified towards meeting Miljødirektoratet's needs.
 Main differences per December 2023 are support for private endpoints / non-public network access and removing diagnostic settings which are set up by other means.
 
+## Upstream feature integration
+
+This fork supports upstream Authentication Settings V2 for primary Linux and Windows Function Apps through `function_app_auth_settings_v2`. Authentication is opt-in: set `auth_enabled = true`. Provider configuration uses application-setting names such as `client_secret_setting_name`; do not place secret values in the module input.
+
+For Function App Key Vault references, set `function_app_key_vault_reference_identity_id` to the ID of a user-assigned identity that is also assigned through `identity_ids`. This lets Key Vault references use that identity instead of the system-assigned identity.
+
 This Terraform module creates an [Azure Function App](https://docs.microsoft.com/en-us/azure/azure-functions/)
 with its [App Service Plan](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans),
 a B1 Linux plan by default.

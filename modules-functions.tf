@@ -34,9 +34,10 @@ module "linux_function" {
   name_prefix    = var.name_prefix
   name_suffix    = var.name_suffix
 
-  storage_uses_managed_identity  = var.storage_uses_managed_identity
-  function_app_key_vault_id      = var.function_app_key_vault_id
-  skip_identity_role_assignments = var.skip_identity_role_assignments
+  storage_uses_managed_identity   = var.storage_uses_managed_identity
+  function_app_key_vault_id       = var.function_app_key_vault_id
+  key_vault_reference_identity_id = var.function_app_key_vault_reference_identity_id
+  skip_identity_role_assignments  = var.skip_identity_role_assignments
 
 
   storage_account_name_prefix                       = var.storage_account_name_prefix
@@ -62,6 +63,7 @@ module "linux_function" {
   function_app_application_settings_drift_ignore = var.function_app_application_settings_drift_ignore
   function_app_version                           = var.function_app_version
   site_config                                    = var.function_app_site_config
+  auth_settings_v2                               = var.function_app_auth_settings_v2
   sticky_settings                                = var.function_app_sticky_settings
   function_app_public_network_access_enabled     = local.function_app_public_network_access_enabled
   unique                                         = var.unique
@@ -155,9 +157,10 @@ module "windows_function" {
   name_prefix    = var.name_prefix
   name_suffix    = var.name_suffix
 
-  storage_uses_managed_identity  = var.storage_uses_managed_identity
-  function_app_key_vault_id      = var.function_app_key_vault_id
-  skip_identity_role_assignments = var.skip_identity_role_assignments
+  storage_uses_managed_identity   = var.storage_uses_managed_identity
+  function_app_key_vault_id       = var.function_app_key_vault_id
+  key_vault_reference_identity_id = var.function_app_key_vault_reference_identity_id
+  skip_identity_role_assignments  = var.skip_identity_role_assignments
 
   storage_account_name_prefix                       = var.storage_account_name_prefix
   storage_account_custom_name                       = var.storage_account_custom_name
@@ -182,6 +185,7 @@ module "windows_function" {
   function_app_application_settings_drift_ignore = var.function_app_application_settings_drift_ignore
   function_app_version                           = var.function_app_version
   site_config                                    = var.function_app_site_config
+  auth_settings_v2                               = var.function_app_auth_settings_v2
   sticky_settings                                = var.function_app_sticky_settings
   function_app_public_network_access_enabled     = local.function_app_public_network_access_enabled
   unique                                         = var.unique
