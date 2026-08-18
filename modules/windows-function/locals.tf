@@ -102,4 +102,10 @@ locals {
   is_local_zip = length(regexall("^(http(s)?|ftp)://", var.application_zip_package_path != null ? var.application_zip_package_path : 0)) == 0
 
   storage_account_output = data.azurerm_storage_account.storage
+
+  auth_settings_v2 = merge({
+    auth_enabled = false
+  }, var.auth_settings_v2)
+
+  auth_settings_v2_login = lookup(local.auth_settings_v2, "login", {})
 }
